@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devmaxx — Maxx your DevEx</title>
+  <meta name="description" content="Devmaxx is an AI-powered business operations platform for Roblox creators. Autonomous agents that maximize your DevEx earnings — automatically." />
+  <meta property="og:title" content="Devmaxx — Maxx your DevEx" />
+  <meta property="og:description" content="AI agents that maximize your Roblox DevEx earnings. Pricing optimization, player support, competitor tracking — all automated." />
+  <meta property="og:url" content="https://devmaxx.app" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A0E1A;
+      --bg2: #111827;
+      --accent: #6366F1;
+      --accent2: #818CF8;
+      --green: #10B981;
+      --text: #F9FAFB;
+      --muted: #9CA3AF;
+      --card: #1F2937;
+      --border: #374151;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,14,26,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366F1, #818CF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .nav-cta {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--accent2);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+    .badge-dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.5rem;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #6366F1, #A78BFA, #818CF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    /* EMAIL CAPTURE */
+    .capture {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 440px;
+      margin: 0 auto 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .capture input {
+      flex: 1;
+      min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .capture input:focus { border-color: var(--accent); }
+    .capture input::placeholder { color: var(--muted); }
+    .capture button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .capture button:hover { opacity: 0.85; }
+    .capture-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      margin: 0 2rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366F1, #818CF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* SECTION */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .section h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    /* AGENTS GRID */
+    .agents {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .agent-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .agent-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .agent-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .agent-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .agent-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .agent-tag {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent2);
+      background: rgba(99,102,241,0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .step {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .step-num {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #6366F1, #818CF8);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 800;
+      margin: 0 auto 1rem;
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.9rem; color: var(--muted); }
+
+    /* PRICING */
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .plan {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .plan.featured {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(129,140,248,0.05));
+    }
+    .plan-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.75rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .plan-name { font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 0.5rem; }
+    .plan-price { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 0.25rem; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .plan-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+    .plan-feature { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.5rem; display: flex; gap: 0.5rem; }
+    .plan-feature::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+    /* SOCIAL PROOF */
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.6rem 1.25rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--text); }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(167,139,250,0.05));
+      border-top: 1px solid var(--border);
+    }
+    .cta-bottom h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+    .cta-bottom p { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none;
+      color: var(--green);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">devmaxx</div>
+    <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Now accepting early access — Roblox creators
+    </div>
+    <h1>Maxx your<br /><span>DevEx earnings.</span></h1>
+    <p class="hero-sub">
+      Devmaxx is the AI business operator for Roblox creators.
+      Autonomous agents that <strong>optimize your item prices</strong>,
+      <strong>handle player support</strong>, and <strong>track competitors</strong>
+      — so you focus on building great games.
+    </p>
+
+    <div id="waitlist">
+      <p class="success-msg" id="success">✓ You're on the list! We'll be in touch soon.</p>
+      <div class="capture">
+        <input type="email" id="email-input" placeholder="your@email.com" />
+        <button onclick="handleSubmit()">Get Early Access</button>
+      </div>
+      <p class="capture-note">Free tier available. No credit card required.</p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">$1B+</div>
+      <div class="stat-label">Paid to Roblox creators annually</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Monetizing creators globally</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40%</div>
+      <div class="stat-label">Avg revenue left on the table</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Hours of your time required</div>
+    </div>
+  </div>
+
+  <!-- AGENTS -->
+  <div class="section">
+    <div class="section-label">The Platform</div>
+    <h2>8 agents. All autonomous.</h2>
+    <p class="section-sub">Each agent specializes in one part of your game business. Together they run everything — without you.</p>
+    <div class="agents">
+      <div class="agent-card">
+        <div class="agent-icon">📊</div>
+        <div class="agent-name">MetricsMonitorAgent</div>
+        <div class="agent-desc">Pulls your Roblox Open Cloud data daily. Detects DAU drops, retention cliffs, and revenue anomalies before they become problems.</div>
+        <span class="agent-tag">Daily · Automated</span>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">💰</div>
+        <div class="agent-name">PricingOptimizationAgent</div>
+        <div class="agent-desc">A/B tests your Robux item prices automatically. Implements the winning price. Most creators see 15–35% revenue lift within 90 days.</div>
+        <span class="agent-tag">Weekly · Auto-implement</span>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">🎮</div>
+        <div class="agent-name">PlayerSupportAgent</div>
+        <div class="agent-desc">Handles player messages, bug reports, and refund requests. Resolves 85%+ automatically. Escalates only what needs you.</div>
+        <span class="agent-tag">Real-time · 24/7</span>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">🔍</div>
+        <div class="agent-name">CompetitorIntelligenceAgent</div>
+        <div class="agent-desc">Tracks your top competing games daily. Alerts you when a competitor drops or surges — so you can capitalize immediately.</div>
+        <span class="agent-tag">Daily · Alerts</span>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">✍️</div>
+        <div class="agent-name">ContentGenerationAgent</div>
+        <div class="agent-desc">Generates in-game event ideas, item descriptions, and limited-time pass concepts based on what's actually performing in your game.</div>
+        <span class="agent-tag">Weekly · Data-driven</span>
+      </div>
+      <div class="agent-card">
+        <div class="agent-icon">📈</div>
+        <div class="agent-name">GrowthBriefAgent</div>
+        <div class="agent-desc">Every Sunday evening: a 90-second email with your week's DevEx earnings, what agents did, and your top 3 actions for next week.</div>
+        <span class="agent-tag">Weekly · Sunday 6pm</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section" style="background: var(--bg2); max-width: 100%; padding: 5rem 2rem;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <div class="section-label">How it works</div>
+      <h2>Connect once. Earn more forever.</h2>
+      <p class="section-sub">Three steps to a fully automated game business.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Connect your game</h3>
+          <p>Link your Roblox account via Open Cloud API. Takes 2 minutes. We never touch your game files.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Agents go to work</h3>
+          <p>All 8 agents activate immediately. Pricing tests start. Support inbox monitored. Competitors tracked.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Read your weekly brief</h3>
+          <p>Every Sunday you get a 90-second summary of exactly what changed, what agents did, and what to do next.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Watch DevEx grow</h3>
+          <p>Optimized prices, happier players, no busywork. More Robux. More DevEx. More time building.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section">
+    <div class="section-label">Pricing</div>
+    <h2>Built for every creator.</h2>
+    <p class="section-sub">Start free. Upgrade when Devmaxx pays for itself — and it will.</p>
+    <div class="pricing">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/mo</span></div>
+        <div class="plan-desc">1 game · Weekly metrics digest only</div>
+        <div class="plan-feature">Weekly GrowthBrief email</div>
+        <div class="plan-feature">Basic metrics dashboard</div>
+        <div class="plan-feature">No credit card required</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Creator</div>
+        <div class="plan-price">$49<span>/mo</span></div>
+        <div class="plan-desc">Up to 2 games · All agents active</div>
+        <div class="plan-feature">All 8 agents active</div>
+        <div class="plan-feature">Pricing A/B tests</div>
+        <div class="plan-feature">Player support automation</div>
+        <div class="plan-feature">Weekly GrowthBrief</div>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$99<span>/mo</span></div>
+        <div class="plan-desc">Up to 5 games · Autopilot mode</div>
+        <div class="plan-feature">Everything in Creator</div>
+        <div class="plan-feature">Autopilot — agents act without approval</div>
+        <div class="plan-feature">Competitor tracking across all games</div>
+        <div class="plan-feature">Monthly monetization report</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Studio</div>
+        <div class="plan-price">$249<span>/mo</span></div>
+        <div class="plan-desc">Unlimited games · Team access</div>
+        <div class="plan-feature">Everything in Pro</div>
+        <div class="plan-feature">Unlimited games</div>
+        <div class="plan-feature">White-label reports</div>
+        <div class="plan-feature">3 team member seats</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="cta-bottom">
+    <h2>Ready to maxx your DevEx?</h2>
+    <p>Join the waitlist. Early access creators get 3 months free.</p>
+    <div class="capture" style="margin: 0 auto 0.75rem;">
+      <input type="email" id="email-input-2" placeholder="your@email.com" />
+      <button onclick="handleSubmit2()">Join Waitlist</button>
+    </div>
+    <p class="capture-note">No spam. No credit card. Just early access.</p>
+    <div class="social-links">
+      <a href="https://instagram.com/devmaxx.app" class="social-link" target="_blank">📸 Instagram</a>
+      <a href="https://tiktok.com/@devmaxxapp" class="social-link" target="_blank">🎵 TikTok</a>
+      <a href="https://x.com/devmaxxapp" class="social-link" target="_blank">🐦 X / Twitter</a>
+      <a href="https://youtube.com/@devmaxxapp" class="social-link" target="_blank">▶️ YouTube</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Devmaxx · <a href="mailto:kevin@devmaxx.app">kevin@devmaxx.app</a> · devmaxx.app</p>
+    <p style="margin-top: 0.5rem;">Built for Roblox creators. Not affiliated with Roblox Corporation.</p>
+  </footer>
+
+  <script>
+    async function handleSubmit() {
+      const email = document.getElementById('email-input').value;
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      await fetch('https://formspree.io/f/mykbgdnq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      document.querySelector('.capture').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+    }
+    async function handleSubmit2() {
+      const email = document.getElementById('email-input-2').value;
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      await fetch('https://formspree.io/f/mykbgdnq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      document.getElementById('email-input-2').value = '';
+      document.getElementById('email-input-2').placeholder = "✓ You're on the list!";
+      document.querySelector('.cta-bottom button').textContent = 'Done!';
+      document.querySelector('.cta-bottom button').style.opacity = '0.6';
+    }
+  </script>
+
+</body>
+</html>
